@@ -1,0 +1,28 @@
+body{
+    height: 100vh;
+    background-color: rgb(24, 68, 150);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    width: 60vw;
+    height: 80vh;
+    background-color: rgb(160, 79, 4);
+    border-radius: 2%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title-div{
+    text-align: center;
+}
+
+.character-cont{
+    background-color: aqua;
+    height: 100%;
+    padding: 20px;
+}

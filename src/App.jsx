@@ -1,52 +1,64 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [loading, setLoading] = useState(true)
   const [characters, setCharacters] = useState([])
+  const [isLoading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   async function getData(){
     try{
       const res = await fetch("https://dragonball-api.com/api/characters")
-      if (!res.ok) setError(new Error("Faile to fetch characters!"))
-      const data = await res.json()
-      return data
-    } catch(error){
-      setError(error)
+      if(!res.ok){
+        throw new Error("Response invalid!")
+      }
+      const data = await res.json();
+      return data;
+    } catch (error){
+      throw error;
     }
   }
 
-  useEffect(() => {
-    getData().then( (data) => {
-      if (data){
-        console.log(data)
+  useEffect( () => {
+    ( async () => {
+      try {
+        const data = await getData();
         setCharacters(data.items)
+      } catch (error){
+        setError(error)
+      } finally{
         setLoading(false)
       }
-    })
-  }, [])
+    })();
+    }
+  , [])
 
   return (
-    <div className="wrapper">
-      { error ? (
-        <p>{error.message} </p>
-      ) : loading ? (
-      <p>Loading..</p>
-    ) : (
-      <ul>
-        {characters.map( (item, index) => 
-        <li key={index} >
-          {item.name} 
-          <img  width="50px" height="75px" src={item.image} />
-        </li>
-      )}</ul>
-    )}
+  <>
+  { error ? ( 
+    <p>{error.message}</p>
+  ) 
+  : 
+    isLoading ? (
+    <p>Loading</p>
+  ) : (
+          <div className="container">
+      <div className="title-div">
+        <h1>DRAGON BALL API</h1>
+      </div>
+      <div className="character-cont">
+        {characters[2].name}
+      </div>
+      <div className="input-div">
+        <input type="text" placeholder="Enter a character here..." />
+        <button></button>
+      </div>
     </div>
-  )
+    )
+  }
+  </>
+    )
+  
 }
 
 export default App
